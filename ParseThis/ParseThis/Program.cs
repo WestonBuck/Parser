@@ -30,6 +30,7 @@ namespace ParseThis
                 }
                 i++;
             }
+            //for (int i = 0; i<)
 
             Parser(Language);
             
@@ -37,7 +38,7 @@ namespace ParseThis
 
         static void Parser (List<string> Language)
         {
-            int depth = 0;
+            int depth = 0; int incrementer = 0;
             string assignmentString = "";
             char c;
             foreach (string word in Language)
@@ -46,37 +47,101 @@ namespace ParseThis
                 if (word.Length == 1 && Char.IsLetter(word[0]) == true )
                 {
                     int i = 0;
-                    while (word != ".")
+                    if (word != "" + ".")
                     {
+                        assignmentString += word;
+                    }
+                    //else
+                    //{
+                    //    assignmentString += word[0];
+                    //    assignmentString += word[1];
+                    //}
+                    //while (word != "" + ".")
+                    //{
 
-                        assignmentString += word[i];
-                        i++;
+                    //    assignmentString += word;
+                    //    i++;
+                    //}
+                }
+                else if (word.Length == 1)
+                {
+                    assignmentString += word;
+                }
+                else if (word.Length == 2)
+                {
+                    assignmentString += word[0];
+                    assignmentString += word[1];
+                    if (assignmentString[1] == '=')
+                    {
+                        Assignment(assignmentString);
                     }
                 }
             }
         }
-        void Begin()
+        static void Begin(int depth)
         {
+            for (int i = 0; i<depth; i++)
+            {
+                Console.WriteLine("|");
+            }
             Console.WriteLine("+<Statement_List>");
             Console.WriteLine("+begin.");
         }
 
-        void Identifier ()
+        static void Identifier (int depth)
         {
+            for (int i = 0; i < depth; i++)
+            {
+                Console.WriteLine("|");
+            }
             Console.WriteLine("+<Identifier>");
         }
 
-        void Assignment ()
+        //does assignments and expressions.
+        static void Assignment (string assignmentString)
         {
-            Console.WriteLine("+<Assignment>");
+            
+            Console.WriteLine("+<statement>");
+            Console.WriteLine("|+<assignment>");
+            Console.WriteLine("||+<identifier>");
+            if(assignmentString.Length == 6)
+            {
+                Console.WriteLine("|||+" + assignmentString[0]);
+                Console.WriteLine("||+" + assignmentString[1]);
+                Console.WriteLine("||+<expression>");
+                Console.WriteLine("|||+<identifier>");
+                Console.WriteLine("||||+" + assignmentString[2]);
+                Console.WriteLine("|||+" + assignmentString[3]);
+                Console.WriteLine("|||+<identifier>");
+                Console.WriteLine("||||+" + assignmentString[4]);
+                Console.WriteLine("||+" + assignmentString[5]);
+            }
+            else if (assignmentString.Length == 4)
+            {
+                Console.WriteLine("|||+" + assignmentString[0]);
+                Console.WriteLine("||+" + assignmentString[1]);
+                Console.WriteLine("||+<expression>");
+                Console.WriteLine("|||+<number>");
+                Console.WriteLine("||||+" + assignmentString[2]);
+                Console.WriteLine("||+" + assignmentString[3]);
+            }
+            
         }
-        void Statement ()
+        static void Statement (int depth)
         {
+            for (int i = 0; i < depth; i++)
+            {
+                Console.WriteLine("|");
+            }
             Console.WriteLine("+<statement>");
         }
 
-        void End ()
+        static void End (int depth)
         {
+            for (int i = 0; i < depth; i++)
+            {
+                Console.WriteLine("|");
+            }
             Console.WriteLine("+end.");
         }
     }
