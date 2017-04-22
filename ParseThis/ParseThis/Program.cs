@@ -42,9 +42,7 @@ namespace ParseThis
             List<string> condList = new List<string>();
             List<string> elseList = new List<string>();
 
-            int depth = 0; int incrementer = 0;
-            string assignmentString = "", cond = "";
-            char c;
+            string assignmentString = "";
             Console.Clear();
             Console.WriteLine("begin.");
             for (int i = 0; i< Language.Count; i++)
@@ -118,9 +116,12 @@ namespace ParseThis
                     elseList.Add(Language[i]); //end.
                     if_Statement(ifList, condList, elseList);
                 }
+                if (Language[i] == "end.")
+                {
+                    End();
+                }
 
             }
-            End();
         }
         static void Begin()
         {
@@ -133,14 +134,6 @@ namespace ParseThis
             Console.WriteLine("+end.");
         }
 
-        static void Identifier (int depth)
-        {
-            for (int i = 0; i < depth; i++)
-            {
-                Console.WriteLine("|");
-            }
-            Console.WriteLine("+<Identifier>");
-        }
 
         //does assignments and expressions.
         static void Assignment (string assignmentString)
@@ -215,23 +208,6 @@ namespace ParseThis
             Console.WriteLine("||||||||+" + elseStatement[4]);
             Console.WriteLine("||||||+" + elseStatement[5]);
             Console.WriteLine("||||+" + elseStatement[6]);
-        }
-        static void Statement (int depth)
-        {
-            for (int i = 0; i < depth; i++)
-            {
-                Console.WriteLine("|");
-            }
-            Console.WriteLine("+<statement>");
-        }
-
-        static void End (int depth)
-        {
-            for (int i = 0; i < depth; i++)
-            {
-                Console.WriteLine("|");
-            }
-            Console.WriteLine("+end.");
         }
     }
 }
