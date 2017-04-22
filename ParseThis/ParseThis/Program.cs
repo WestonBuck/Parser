@@ -90,6 +90,8 @@ namespace ParseThis
                     i++;
                     cond += Language[i][0];
                     cond += Language[i][1];
+                    i++;
+                    cond += Language[i]; // end.
                 }
                
             }
