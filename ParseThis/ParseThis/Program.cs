@@ -12,7 +12,7 @@ namespace ParseThis
         {
             string tempList;
             List<string> Language = new List<string>();
-            char[] delimiterChars = { ' ', ',', ':', '\t' };
+            char[] delimiterChars = { ' ', ',', '\t' };
             Console.WriteLine("Please enter your language to be parsed:");
             tempList = Console.ReadLine();
             string[] words = tempList.Split(delimiterChars);
@@ -38,6 +38,10 @@ namespace ParseThis
 
         static void Parser (List<string> Language)
         {
+            List<string> ifList = new List<string>();
+            List<string> condList = new List<string>();
+            List<string> elseList = new List<string>();
+
             int depth = 0; int incrementer = 0;
             string assignmentString = "", cond = "";
             char c;
@@ -46,6 +50,11 @@ namespace ParseThis
             for (int i = 0; i< Language.Count; i++)
             {
                // c = word[0];
+                if (Language[i] == "begin")
+                {
+                    Begin();
+                } 
+
                 if (Language[i].Length == 1 && Char.IsLetter(Language[i][0]) == true)
                 {
                     if (Language[i] != "" + ".")
@@ -58,6 +67,7 @@ namespace ParseThis
                 {
                     assignmentString += Language[i];
                 }
+
                 else if (Language[i].Length == 2 && Language[i][1] == '.')
                 {
 
@@ -72,39 +82,55 @@ namespace ParseThis
 
                 if (Language[i] == "if")
                 {
-                    assignmentString += Language[i];
+                    ifList.Add(Language[i]);
                     i++;
-                    assignmentString += Language[i];
+                    ifList.Add(Language[i]);
                     i++;
-                    assignmentString += Language[i];
+                    ifList.Add(Language[i]);
                     i++;
-                    assignmentString += Language[i][0];
-                    assignmentString += Language[i][1];
+                    ifList.Add(Language[i][0].ToString());
+                    ifList.Add(Language[i][1].ToString());
                     i++;
 
-                    cond += Language[i]; // begin
+                    //if conditions
+                    condList.Add(Language[i]); // begin
                     i++;
-                    cond += Language[i];
+                    condList.Add(Language[i]);
                     i++;
-                    cond += Language[i];
+                    condList.Add(Language[i]);
                     i++;
-                    cond += Language[i][0];
-                    cond += Language[i][1];
+                    condList.Add(Language[i][0].ToString());
+                    condList.Add(Language[i][1].ToString());
                     i++;
-                    cond += Language[i]; // end.
+                    condList.Add(Language[i]);//end
+                    i++;
+                    elseList.Add(Language[i]); //else
+                    i++;
+                    elseList.Add(Language[i]); //begin.
+                    i++;
+                    elseList.Add(Language[i]); // e
+                    i++;
+                    elseList.Add(Language[i]); // =
+                    i++;
+                    elseList.Add(Language[i][0].ToString()); // a
+                    elseList.Add(Language[i][1].ToString()); //.
+                    i++;
+                    elseList.Add(Language[i]); //end.
+                    if_Statement(ifList, condList, elseList);
                 }
-               
+
             }
-            Console.WriteLine("end.");
+            End();
         }
-        static void Begin(int depth)
+        static void Begin()
         {
-            for (int i = 0; i<depth; i++)
-            {
-                Console.WriteLine("|");
-            }
             Console.WriteLine("+<Statement_List>");
             Console.WriteLine("+begin.");
+        }
+
+        static void End()
+        {
+            Console.WriteLine("+end.");
         }
 
         static void Identifier (int depth)
@@ -147,12 +173,12 @@ namespace ParseThis
             
         }
 
-        static void if_Statement(string assignmentString, string condition, string elseStatement)
+        static void if_Statement(List<string> assignmentString, List <string> condition, List<string> elseStatement)
         {
             Console.WriteLine("+<statement>");
             Console.WriteLine("|+<if_statement>");
 
-            if (assignmentString.Length == 5)
+            if (assignmentString.Count == 5)
             {
                 Console.WriteLine("||+" + assignmentString[0]);
                 Console.WriteLine("||+<condition>");
@@ -168,14 +194,13 @@ namespace ParseThis
             Console.WriteLine("|||+<statement>");
             Console.WriteLine("||||+<assignment>");
             Console.WriteLine("|||||+<identifier>");
-            Console.WriteLine("||||+" + condition[0]);
-            Console.WriteLine("|||+" + condition[1]);
-            Console.WriteLine("||||+<expression>");
-            Console.WriteLine("|||||+<assignment>");
+            Console.WriteLine("||||||+" + condition[1]);
+            Console.WriteLine("|||||+" + condition[2]);
+            Console.WriteLine("|||||+<expression>");
             Console.WriteLine("||||||+<identifier>");
-            Console.WriteLine("|||||||+" + condition[2]);
-            Console.WriteLine("||||||+" + condition[3]);
-            Console.WriteLine("|||+" + condition[4]);
+            Console.WriteLine("|||||||+" + condition[3]);
+            Console.WriteLine("|||||+" + condition[4]);
+            Console.WriteLine("|||+end.");
 
             Console.WriteLine("||+" + elseStatement[0]);
             Console.WriteLine("|||+<statement_list>");
@@ -188,9 +213,8 @@ namespace ParseThis
             Console.WriteLine("||||||+<expression>");
             Console.WriteLine("|||||||+<identifier>");
             Console.WriteLine("||||||||+" + elseStatement[4]);
-            Console.WriteLine("|||||||+" + elseStatement[5]);
-            Console.WriteLine("||||||+" + elseStatement[6]);
-            Console.WriteLine("||||+" + elseStatement[7]);
+            Console.WriteLine("||||||+" + elseStatement[5]);
+            Console.WriteLine("||||+" + elseStatement[6]);
         }
         static void Statement (int depth)
         {
