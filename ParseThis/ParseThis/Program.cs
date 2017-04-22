@@ -51,17 +51,6 @@ namespace ParseThis
                     {
                         assignmentString += word;
                     }
-                    //else
-                    //{
-                    //    assignmentString += word[0];
-                    //    assignmentString += word[1];
-                    //}
-                    //while (word != "" + ".")
-                    //{
-
-                    //    assignmentString += word;
-                    //    i++;
-                    //}
                 }
                 else if (word.Length == 1)
                 {
@@ -74,7 +63,13 @@ namespace ParseThis
                     if (assignmentString[1] == '=')
                     {
                         Assignment(assignmentString);
+                        assignmentString = "";
                     }
+                }
+
+                if ( word == "if")
+                {
+
                 }
             }
         }
@@ -126,6 +121,28 @@ namespace ParseThis
                 Console.WriteLine("||+" + assignmentString[3]);
             }
             
+        }
+
+        static void if_Statement(string assignmentString, string condition)
+        {
+            Console.WriteLine("+<statement>");
+            Console.WriteLine("|+<if_statement>");
+
+            if (assignmentString.Length == 5)
+            {
+                Console.WriteLine("||+" + assignmentString[0]);
+                Console.WriteLine("||+<condition>");
+                Console.WriteLine("|||+<identifier>");
+                Console.WriteLine("||||+" + assignmentString[1]);
+                Console.WriteLine("|||+" + assignmentString[2]);
+                Console.WriteLine("|||+<identifier>");
+                Console.WriteLine("||||+" + assignmentString[3]);
+                Console.WriteLine("||+" + assignmentString[4]);
+            }
+            Console.WriteLine("||+<statement_list>");
+            Console.WriteLine("|||+begin.");
+            Console.WriteLine("|||+" + assignmentString[0]);
+
         }
         static void Statement (int depth)
         {
